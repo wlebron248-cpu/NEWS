@@ -1,0 +1,20 @@
+name: Daily Macro Briefing
+
+on:
+  schedule:
+    - cron: '30 23 * * *'  # 北京 07:30
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - run: python main.py
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PUSH_PKEY: ${{ secrets.PUSH_PKEY }}
